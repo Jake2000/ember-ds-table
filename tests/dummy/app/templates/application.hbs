@@ -1,3 +1,39 @@
-<h2 id="title">Welcome to Ember</h2>
+<ul>
+    {{#each columns as |column|}}
+        <li>
+            {{input type='checkbox' checked=column.isVisible}}
+            {{column.title}}
+        </li>
+    {{/each}}
+</ul>
 
-{{outlet}}
+
+{{#ds-table modelName='product' columns=columns as |table|}}
+    {{#table.thead as |thead|}}
+        {{thead.cell}}
+    {{/table.thead}}
+
+    {{#table.tbody as |tbody|}}
+        {{#tbody.row as |row|}}
+            {{row.cell}}
+        {{/tbody.row}}
+    {{/table.tbody}}
+    {{#table.pagination as |pagination|}}
+        {{pagination.summary}}
+        {{#pagination.limits as |limits limit|}}
+            {{power-select-blockless options=limits selected=limit onchange=(action (mut limit))}}
+        {{/pagination.limits}}
+        {{#pagination.first}}
+            first
+        {{/pagination.first}}
+        {{#pagination.prev}}
+            prev
+        {{/pagination.prev}}
+        {{#pagination.next}}
+            next
+        {{/pagination.next}}
+        {{#pagination.last}}
+            last
+        {{/pagination.last}}
+    {{/table.pagination}}
+{{/ds-table}}

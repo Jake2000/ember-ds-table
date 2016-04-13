@@ -1,0 +1,9 @@
+{{#each content as |record|}}
+    {{yield (hash row=(component 'ds-table-row' record=record columns=columns))}}
+{{else}}
+    <tr>
+        <td colspan={{columns.length}}>
+            {{{messages.emptyTable}}}
+        </td>
+    </tr>
+{{/each}}

@@ -1,0 +1,3 @@
+{{#each columns as |column|}}
+    {{yield (hash cell=(component 'ds-table-cell' tagName='th' isVisible=column.isVisible record=column path='title'))}}
+{{/each}}

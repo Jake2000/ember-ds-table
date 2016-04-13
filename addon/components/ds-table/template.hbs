@@ -1,0 +1,7 @@
+{{yield
+    (hash
+        thead=(component 'ds-table-thead' columns=columns)
+        tbody=(component 'ds-table-tbody' columns=columns content=model.content messages=messages)
+        pagination=(component 'ds-table-pagination' count=meta.count limit=filter.limit skip=filter.skip)
+    )
+}}

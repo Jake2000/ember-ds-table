@@ -1,0 +1,28 @@
+{{yield
+    (hash
+        summary=(component 'ds-table-pagination-summary'
+            currentPageNumber=currentPageNumber
+            limit=limit
+            count=count
+        )
+        limits=(component 'ds-table-pagination-limits'
+            limit=limit
+        )
+        first=(component 'ds-table-pagination-toggle'
+            enabled=gotoBackEnabled
+            onclick=(action 'gotoFirstPage')
+        )
+        prev=(component 'ds-table-pagination-toggle'
+            enabled=gotoBackEnabled
+            onclick=(action 'gotoPrevPage')
+        )
+        next=(component 'ds-table-pagination-toggle'
+            enabled=gotoForwardEnabled
+            onclick=(action 'gotoNextPage')
+        )
+        last=(component 'ds-table-pagination-toggle'
+            enabled=gotoForwardEnabled
+            onclick=(action 'gotoLastPage')
+        )
+    )
+}}
