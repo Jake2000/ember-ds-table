@@ -29,15 +29,27 @@ export default Component.extend({
     }),
     actions: {
         gotoFirstPage() {
+            if (!this.get('gotoBackEnabled')) {
+               return;
+            }
+
             this.set('currentPageNumber', 1);
         },
 
         gotoPrevPage() {
+            if (!this.get('gotoBackEnabled')) {
+               return;
+            }
+
             if (this.get('currentPageNumber') > 1) {
                 this.decrementProperty('currentPageNumber');
             }
         },
         gotoNextPage() {
+            if (!this.get('gotoForwardEnabled')) {
+               return;
+            }
+
             let {
                 currentPageNumber,
                 limit,
@@ -48,6 +60,10 @@ export default Component.extend({
             }
         },
         gotoLastPage() {
+            if (!this.get('gotoForwardEnabled')) {
+               return;
+            }
+
             this.set('currentPageNumber', this.get('pagesCount'));
         }
     }
