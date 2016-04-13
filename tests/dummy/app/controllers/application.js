@@ -12,5 +12,10 @@ export default Controller.extend({
             path: 'title',
             title: 'Наименование'
         })
-    ])
+    ]),
+    actions: {
+        doubleClick(e, row) {
+            console.log(e, row);
+        }
+    }
 });

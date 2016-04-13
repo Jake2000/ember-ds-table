@@ -14,7 +14,7 @@
     {{/table.thead}}
 
     {{#table.tbody as |tbody|}}
-        {{#tbody.row as |row|}}
+        {{#tbody.row doubleClick=(action 'doubleClick') as |row|}}
             {{row.cell}}
         {{/tbody.row}}
     {{/table.tbody}}

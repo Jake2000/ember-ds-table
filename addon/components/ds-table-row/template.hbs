@@ -1,3 +1,6 @@
 {{#each columns as |column|}}
-    {{yield (hash cell=(component 'ds-table-cell' isVisible=column.isVisible record=record path=column.path))}}
+    {{yield (hash
+            cell=(component 'ds-table-cell' isVisible=column.isVisible record=(get record column.path))
+        )
+    }}
 {{/each}}
