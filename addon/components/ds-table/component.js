@@ -5,6 +5,7 @@ import layout from './template';
 
 const {
     Component,
+    A,
     computed,
     inject: {
         service
@@ -17,6 +18,7 @@ export default Component.extend({
     tagName: 'table',
     store: service(),
     modelName: '',
+    columns: A([]),
     filter: {
         skip: 0,
         limit: 10
@@ -24,13 +26,16 @@ export default Component.extend({
     meta: {},
     reload: false,
     didReceiveAttrs() {
-        let columns = this.get('columns');
+        let columns = A(this.get('columns')), ret = A([]);
         columns.forEach(item => {
+            item = Ember.Object.create(item);
             let isVisible = item.get('isVisible');
             if(isNone(isVisible)) {
                 item.set('isVisible', true);
             }
+            ret.addObject(item);
         });
+        columns.replace(0, columns.length, ret);
     },
     model: computed('reload', 'filter.{skip,limit}', function() {
         const {
