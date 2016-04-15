@@ -18,22 +18,9 @@
             {{row.cell}}
         {{/tbody.row}}
     {{/table.tbody}}
-    {{#table.pagination as |pagination|}}
-        {{pagination.summary}}
-        {{#pagination.limits as |limits limit|}}
-            {{power-select-blockless options=limits selected=limit onchange=(action (mut limit))}}
-        {{/pagination.limits}}
-        {{#pagination.first}}
-            first
-        {{/pagination.first}}
-        {{#pagination.prev}}
-            prev
-        {{/pagination.prev}}
-        {{#pagination.next}}
-            next
-        {{/pagination.next}}
-        {{#pagination.last}}
-            last
-        {{/pagination.last}}
+    {{#table.pagination as |count current|}}
+        {{#pagination-pager count=count current=current pager=true}}
+            Page {{current}} of {{count}}
+        {{/pagination-pager}}
     {{/table.pagination}}
 {{/ds-table}}
