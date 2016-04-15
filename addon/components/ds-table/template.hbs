@@ -1,7 +1,59 @@
-{{yield
-    (hash
-        thead=(component 'ds-table-thead' columns=columns)
-        tbody=(component 'ds-table-tbody' columns=columns content=model.content messages=messages)
-        pagination=(component 'ds-table-pagination' countRecords=meta.count limit=limit skip=skip)
-    )
-}}
+{{#if hasBlock}}
+    {{yield
+    	(hash
+    		thead=(component 'ds-table-thead'
+    			messages=messages
+    			columns=columns
+    		)
+    		tbody=(component 'ds-table-tbody'
+    			messages=messages
+    			columns=columns
+    			content=model.content
+    			loading=loading
+    		)
+    		loading=(component 'ds-table-loading'
+    			messages=messages
+    			loading=loading
+    		)
+    		empty=(component 'ds-table-empty'
+    			messages=messages
+    			count=meta.count
+    			loading=loading
+    		)
+			pagination=(component 'ds-table-pagination'
+    			messages=messages
+    			current=currentPage
+    			countRecords=meta.count
+    			limit=limit
+    			skip=skip
+    		)
+    	)
+    }}
+{{else}}
+    {{ds-table-thead
+		messages=messages
+		columns=columns
+	}}
+	{{ds-table-tbody
+		messages=messages
+		columns=columns
+		content=model.content
+		loading=loading
+	}}
+	{{ds-table-loading
+		messages=messages
+		loading=loading
+	}}
+	{{ds-table-empty
+		messages=messages
+		count=meta.count
+		loading=loading
+	}}
+	{{ds-table-pagination
+		messages=messages
+		current=currentPage
+		countRecords=meta.count
+		limit=limit
+		skip=skip
+	}}
+{{/if}}

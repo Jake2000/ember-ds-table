@@ -7,8 +7,9 @@
     {{/each}}
 </ul>
 
+<h1>with blockless</h1>
 
-{{#ds-table modelName='product' columns=columns as |table|}}
+{{#ds-table modelName='product' reload=(mut reload) columns=columns as |table|}}
     {{#table.thead as |thead|}}
         {{thead.cell}}
     {{/table.thead}}
@@ -18,9 +19,38 @@
             {{row.cell}}
         {{/tbody.row}}
     {{/table.tbody}}
-    {{#table.pagination as |count current|}}
+    {{#table.empty as |isEmpty loading|}}
+        {{#if (and isEmpty (not loading))}}
+            nothing found
+        {{/if}}
+    {{/table.empty}}
+    {{#table.loading as |loading|}}
+        {{#if loading}}
+            loading...
+        {{/if}}
+    {{/table.loading}}
+    {{#table.pagination as |count current limit skip|}}
+        go to: {{input value=current}}
+        <br />
+        elements on page: {{input value=limit}}
+        <br />
+        <button {{action 'reload'}}>reload</button>
+        <br />
+        skip: {{skip}}
+        <br />
+        limit: {{limit}}
+        <br />
         {{#pagination-pager count=count current=current pager=true}}
             Page {{current}} of {{count}}
         {{/pagination-pager}}
     {{/table.pagination}}
 {{/ds-table}}
+
+
+<h1>without blockless</h1>
+
+{{ds-table
+    modelName='product'
+    reload=(mut reload)
+    columns=columns
+}}

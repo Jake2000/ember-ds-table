@@ -1,9 +1,10 @@
 {{#each content as |record|}}
-    {{yield (hash row=(component 'ds-table-row' record=record columns=columns))}}
-{{else}}
-    <tr>
-        <td colspan={{columns.length}}>
-            {{{messages.emptyTable}}}
-        </td>
-    </tr>
+    {{#if hasBlock}}
+        {{yield (hash row=(component 'ds-table-row' record=record columns=columns))}}
+    {{else}}
+        {{ds-table-row
+            record=record
+            columns=columns
+        }}
+    {{/if}}
 {{/each}}

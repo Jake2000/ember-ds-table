@@ -1,0 +1,7 @@
+{{#if hasBlock}}
+    {{yield loading}}
+{{else}}
+    {{#if loading}}
+        {{{messages.loading}}}
+    {{/if}}
+{{/if}}

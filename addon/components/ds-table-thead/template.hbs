@@ -1,3 +1,11 @@
 {{#each columns as |column|}}
-    {{yield (hash cell=(component 'ds-table-cell' tagName='th' isVisible=column.isVisible record=(get column 'title')))}}
+    {{#if hasBlock}}
+        {{yield (hash cell=(component 'ds-table-cell' tagName='th' isVisible=column.isVisible record=(get column 'title')))}}
+    {{else}}
+        {{ds-table-cell
+            tagName='th'
+            isVisible=column.isVisible
+            record=(get column 'title')
+        }}
+    {{/if}}
 {{/each}}

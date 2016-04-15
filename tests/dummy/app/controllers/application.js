@@ -13,9 +13,13 @@ export default Controller.extend({
             title: 'Наименование'
         }
     ],
+    reload: false,
     actions: {
         doubleClick(e, row) {
             console.log(e, row);
+        },
+        reload() {
+            this.set('reload', true);
         }
     }
 });

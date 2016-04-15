@@ -1,1 +1,8 @@
-{{yield count current}}
+{{#if hasBlock}}
+    {{yield count current limit skip}}
+{{else}}
+    {{pagination-pager
+        count=count
+        current=current
+    }}
+{{/if}}
