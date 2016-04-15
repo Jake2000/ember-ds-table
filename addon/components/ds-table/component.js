@@ -65,7 +65,7 @@ export default Component.extend({
         //meta
         this.set('meta', O.create(this.get('meta')));
     },
-    model: computed('skip', 'limit', function() {
+    model: computed('reload', 'skip', 'limit', function() {
         this.set('loading', true);
         const {
             store,
