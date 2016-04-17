@@ -7,7 +7,9 @@ const {
     Component,
     A,
     computed,
-    observer,
+    computed: {
+        alias
+    },
     inject: {
         service
     },
@@ -44,12 +46,6 @@ export default Component.extend({
             return limit * (currentPage - 1);
         }
     }),
-    _observeReload: observer('reload', function() {
-        let reload = this.get('reload');
-        if(reload) {
-            this.set('currentPage', 1);
-        }
-    }),
     didReceiveAttrs() {
         let columns = this.get('columns'), ret = A([]);
         columns = A(columns);
@@ -61,31 +57,25 @@ export default Component.extend({
             ret.addObject(item);
         });
         columns.replace(0, columns.length, ret);
-        console.log('didReceiveAttrs', columns);
     },
     didUpdateAttrs() {
         let {
-            countPages, currentPage
-        } = this.getProperties('countPages', 'currentPage');
-        currentPage = parseInt(this.get('currentPage'));
+            countPages, currentPage, reload
+        } = this.getProperties('countPages', 'currentPage', 'reload');
+        currentPage = reload ? 1 : currentPage;
+        currentPage = parseInt(currentPage);
         currentPage = currentPage >= 1 ? currentPage : 1;
         currentPage = currentPage > countPages ? countPages : currentPage;
         this.set('currentPage', currentPage);
     },
-    query: computed('skip', 'limit', {
-        get() {
-            return this.getProperties('skip', 'limit');
-        }
-    }),
-    model: computed('reload', 'query', function() {
+    content: alias('model.content'),
+    model: computed('skip', 'limit', function() {
         this.set('loading', true);
         let {
-            store,
-            modelName,
-            query
-        } = this.getProperties('store', 'modelName', 'query');
+            store, modelName
+        } = this.getProperties('store', 'modelName');
         return DS.PromiseArray.create({
-            promise: store.query(modelName, query)
+            promise: store.query(modelName, this.getProperties('skip', 'limit'))
                 .then(result => {
                     let count = result.get('meta.count');
                     this.set('count', count ? count : 0);

@@ -1,6 +1,6 @@
-import REST from 'ember-data/adapters/rest';
+import DS from 'ember-data';
+import ENV from '../config/environment';
 
-export default REST.extend({
-    host: 'http://jake2000.github.io/ember-ds-table/',
-    namespace: 'api'
+export default DS.RESTAdapter.extend({
+  namespace: ENV.baseURL + 'api'
 });
