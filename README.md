@@ -4,23 +4,62 @@ This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
+```bash
+ember install ember-models-table
+```
 
-## Running
+## Usage
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+Set up the table properties,
 
-## Running Tests
+```javascript
+// ../controllers/application.js
+columns:  [
+  {
+      title: '#',
+      path: 'id'
+  },
+  {
+      title: 'Avatar',
+      path: 'avatar',
+      component: 'user-avatar'
+  },
+  {
+      title: 'First Name',
+      path: 'firstName'
+  },
+  {
+      title: 'Last Name',
+      path: 'lastName'
+  },
+  {
+      title: 'Address',
+      path: 'address'
+  },
+  {
+      title: 'State',
+      path: 'state'
+  },
+  {
+      title: 'Country',
+      path: 'country'
+  }
+],
+```
 
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+```handlebars
+<!-- ../templates/application.hbs -->
 
-## Building
+{{ds-table
+  modelName='user'
+  columns=columns
+}}
+```
 
-* `ember build`
+```handlebars
+<!-- ../templates/components/user-avatar.hbs -->
 
-For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+<img src={{value}} style="width:30px;height:30px;border-radius:50%;">
+```
+
+
