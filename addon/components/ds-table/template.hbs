@@ -17,15 +17,15 @@
     		)
     		empty=(component 'ds-table-empty'
     			messages=messages
-    			count=meta.count
+    			count=count
     			loading=loading
     		)
 			pagination=(component 'ds-table-pagination'
     			messages=messages
-    			current=currentPage
-    			countRecords=meta.count
-    			limit=limit
-    			skip=skip
+    			currentPage=currentPage
+    			countPages=countPages
+                limit=limit
+                skip=skip
     		)
     	)
     }}
@@ -46,14 +46,14 @@
 	}}
 	{{ds-table-empty
 		messages=messages
-		count=meta.count
+		count=count
 		loading=loading
 	}}
 	{{ds-table-pagination
-		messages=messages
-		current=currentPage
-		countRecords=meta.count
-		limit=limit
-		skip=skip
+        messages=messages
+        currentPage=currentPage
+        countPages=countPages
+        limit=limit
+        skip=skip
 	}}
 {{/if}}

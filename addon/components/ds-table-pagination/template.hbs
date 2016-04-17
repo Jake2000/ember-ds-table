@@ -1,8 +1,8 @@
 {{#if hasBlock}}
-    {{yield count current limit skip}}
+    {{yield countPages currentPage limit skip}}
 {{else}}
     {{pagination-pager
-        count=count
-        current=current
+        count=countPages
+        current=currentPage
     }}
 {{/if}}

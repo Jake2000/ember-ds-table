@@ -24,32 +24,37 @@ export default Component.extend({
     columns: [],
     skip: 0,
     limit: 10,
-    meta: {
-        count: 0
-    },
+    count: 0,
     currentPage: 1,
+    countPages: 1,
     reload: false,
-    loading: true,
+    loading: false,
     messages: {
         emptyTable: 'nothing found',
         loading:    'loading...'
     },
-    _observeLimit: observer('limit', function() {
+    _observeCurrentPage: observer('currentPage', 'count', 'limit', function() {
         let {
             limit,
+            currentPage,
             count
-        } = this.getProperties('limit', 'meta.count');
+        } = this.getProperties('limit', 'currentPage', 'count');
+
+        let countPages = parseInt(count / limit);
+        countPages = countPages < 1 ? countPages + 1 : countPages;
+
+        currentPage = parseInt(currentPage);
+        currentPage = currentPage >= 1 ? currentPage : 1;
+        currentPage = currentPage > countPages ? countPages : currentPage;
+
         limit = parseInt(limit);
         limit = limit >= 0 ? limit : 0;
         limit = limit > count ? count : limit;
 
-        this.set('limit', limit);
-    }),
-    _observeReload: observer('reload', function() {
-        let reload = this.get('reload');
-        if(reload) {
-            this.set('currentPage', 1);
-        }
+        let skip = limit * (currentPage - 1);
+        this.setProperties({
+            skip, limit, currentPage, countPages
+        });
     }),
     didReceiveAttrs() {
         //columns
@@ -62,11 +67,14 @@ export default Component.extend({
             ret.addObject(item);
         });
         columns.replace(0, columns.length, ret);
-        //meta
-        this.set('meta', O.create(this.get('meta')));
     },
     model: computed('reload', 'skip', 'limit', function() {
         this.set('loading', true);
+        let reload = this.get('reload');
+        if(reload) {
+            this.set('currentPage', 1);
+        }
+
         const {
             store,
             modelName,
@@ -74,9 +82,10 @@ export default Component.extend({
             limit
         } = this.getProperties('store', 'modelName', 'skip', 'limit');
         return DS.PromiseArray.create({
-            promise: store.query(modelName, { filter: { skip: skip, limit: limit } })
+            promise: store.query(modelName, { skip: skip, limit: limit })
                 .then(result => {
-                    this.set('meta.count', result.get('meta.count'));
+                    let count = result.get('meta.count');
+                    this.set('count', count ? count : 0);
                     return result;
                 })
                 .finally(() => {

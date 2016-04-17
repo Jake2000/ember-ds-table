@@ -2,15 +2,35 @@ import Ember from 'ember';
 const { Controller } = Ember;
 
 export default Controller.extend({
-    columns: [
+    columns:  [
         {
-            path: 'id',
             title: '#',
-            isVisible: false
+            path: 'id'
         },
         {
-            path: 'title',
-            title: 'Наименование'
+            title: 'Avatar',
+            path: 'avatar',
+            component: 'user-avatar'
+        },
+        {
+            title: 'First Name',
+            path: 'firstName'
+        },
+        {
+            title: 'Last Name',
+            path: 'lastName'
+        },
+        {
+            title: 'Address',
+            path: 'address'
+        },
+        {
+            title: 'State',
+            path: 'state'
+        },
+        {
+            title: 'Country',
+            path: 'country'
         }
     ],
     reload: false,

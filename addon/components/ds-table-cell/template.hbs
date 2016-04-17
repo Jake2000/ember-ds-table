@@ -1,5 +1,12 @@
-{{#if column.component}}
-    {{component column.component record=record}}
+{{#if hasBlock}}
+    {{yield}}
 {{else}}
-    {{{record}}}
+    {{#if column.component}}
+        {{component column.component
+            value=value
+            column=column
+        }}
+    {{else}}
+        {{value}}
+    {{/if}}
 {{/if}}

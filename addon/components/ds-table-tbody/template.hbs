@@ -1,10 +1,15 @@
-{{#each content as |record|}}
-    {{#if hasBlock}}
-        {{yield (hash row=(component 'ds-table-row' record=record columns=columns))}}
-    {{else}}
-        {{ds-table-row
-            record=record
-            columns=columns
-        }}
-    {{/if}}
-{{/each}}
+{{#if hasBlock}}
+    {{yield (hash cell=(component 'ds-table-cell')) content}}
+{{else}}
+    {{#each content as |record|}}
+        <tr>
+            {{#each columns as |column|}}
+                {{ds-table-cell
+                    isVisible=column.isVisible
+                    column=column
+                    record=(get record column.path)
+                }}
+            {{/each}}
+        </tr>
+    {{/each}}
+{{/if}}
