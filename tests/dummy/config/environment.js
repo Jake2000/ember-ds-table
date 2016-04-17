@@ -41,6 +41,9 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.baseURL = '/ember-ds-table';
+    ENV['ember-cli-mirage'] = {
+      enabled: true
+    }
   }
 
   return ENV;
