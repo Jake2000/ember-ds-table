@@ -52,7 +52,6 @@ export default Component.extend({
     }),
     didReceiveAttrs() {
         let columns = this.get('columns'), ret = A([]);
-        console.log('didReceiveAttrs', columns);
         columns = A(columns);
         columns.forEach(item => {
             item = O.create(item);
@@ -68,7 +67,6 @@ export default Component.extend({
         let {
             countPages, currentPage
         } = this.getProperties('countPages', 'currentPage');
-        console.log('count', this.get('count'));
         currentPage = parseInt(this.get('currentPage'));
         currentPage = currentPage >= 1 ? currentPage : 1;
         currentPage = currentPage > countPages ? countPages : currentPage;
