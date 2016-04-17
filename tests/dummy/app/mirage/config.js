@@ -17,7 +17,7 @@ export default function() {
     let users = db.users;
 
     skip = skip || 0;
-    limit = limit || 20;
+    limit = limit || 10;
 
     users = _.take(_.drop(users, skip), limit);
 

@@ -1,1 +1,0 @@
-export { default } from 'ember-ds-table/components/ds-table-row/component';

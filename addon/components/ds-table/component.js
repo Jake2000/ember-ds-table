@@ -22,43 +22,38 @@ export default Component.extend({
     store: service(),
     modelName: '',
     columns: [],
-    skip: 0,
     limit: 10,
     count: 0,
     currentPage: 1,
-    countPages: 1,
     reload: false,
     loading: false,
-    messages: {
-        emptyTable: 'nothing found',
-        loading:    'loading...'
-    },
-    _observeCurrentPage: observer('currentPage', 'count', 'limit', function() {
-        let {
-            limit,
-            currentPage,
-            count
-        } = this.getProperties('limit', 'currentPage', 'count');
-
-        let countPages = parseInt(count / limit);
-        countPages = countPages < 1 ? countPages + 1 : countPages;
-
-        currentPage = parseInt(currentPage);
-        currentPage = currentPage >= 1 ? currentPage : 1;
-        currentPage = currentPage > countPages ? countPages : currentPage;
-
-        limit = parseInt(limit);
-        limit = limit >= 0 ? limit : 0;
-        limit = limit > count ? count : limit;
-
-        let skip = limit * (currentPage - 1);
-        this.setProperties({
-            skip, limit, currentPage, countPages
-        });
+    countPages: computed('count', 'limit', {
+        get() {
+            let {
+                count, limit
+            } = this.getProperties('count', 'limit');
+            let countPages = parseInt(count / limit);
+            return countPages > 0 ? countPages : countPages + 1;
+        }
+    }),
+    skip: computed('currentPage', 'limit', {
+        get() {
+            let {
+                currentPage, limit
+            } = this.getProperties('currentPage', 'limit');
+            return limit * (currentPage - 1);
+        }
+    }),
+    _observeReload: observer('reload', function() {
+        let reload = this.get('reload');
+        if(reload) {
+            this.set('currentPage', 1);
+        }
     }),
     didReceiveAttrs() {
-        //columns
-        let columns = A(this.get('columns')), ret = A([]);
+        let columns = this.get('columns'), ret = A([]);
+        console.log('didReceiveAttrs', columns);
+        columns = A(columns);
         columns.forEach(item => {
             item = O.create(item);
             if(isNone(item.get('isVisible'))) {
@@ -67,22 +62,32 @@ export default Component.extend({
             ret.addObject(item);
         });
         columns.replace(0, columns.length, ret);
+        console.log('didReceiveAttrs', columns);
     },
-    model: computed('reload', 'skip', 'limit', function() {
-        this.set('loading', true);
-        let reload = this.get('reload');
-        if(reload) {
-            this.set('currentPage', 1);
+    didUpdateAttrs() {
+        let {
+            countPages, currentPage
+        } = this.getProperties('countPages', 'currentPage');
+        console.log('count', this.get('count'));
+        currentPage = parseInt(this.get('currentPage'));
+        currentPage = currentPage >= 1 ? currentPage : 1;
+        currentPage = currentPage > countPages ? countPages : currentPage;
+        this.set('currentPage', currentPage);
+    },
+    query: computed('skip', 'limit', {
+        get() {
+            return this.getProperties('skip', 'limit');
         }
-
-        const {
+    }),
+    model: computed('reload', 'query', function() {
+        this.set('loading', true);
+        let {
             store,
             modelName,
-            skip,
-            limit
-        } = this.getProperties('store', 'modelName', 'skip', 'limit');
+            query
+        } = this.getProperties('store', 'modelName', 'query');
         return DS.PromiseArray.create({
-            promise: store.query(modelName, { skip: skip, limit: limit })
+            promise: store.query(modelName, query)
                 .then(result => {
                     let count = result.get('meta.count');
                     this.set('count', count ? count : 0);

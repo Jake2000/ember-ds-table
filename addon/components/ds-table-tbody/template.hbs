@@ -1,5 +1,5 @@
 {{#if hasBlock}}
-    {{yield (hash cell=(component 'ds-table-cell')) content}}
+    {{yield (hash cell=(component 'ds-table-cell')) content loading countPages}}
 {{else}}
     {{#each content as |record|}}
         <tr>
@@ -12,4 +12,19 @@
             {{/each}}
         </tr>
     {{/each}}
+    {{#if loading}}
+        <tr>
+            <td colspan={{columns.length}}>
+                loading...
+            </td>
+        </tr>
+    {{else}}
+        {{#if (lte count 0)}}
+            <tr>
+                <td colspan={{columns.length}}>
+                    nothing found
+                </td>
+            </tr>
+        {{/if}}
+    {{/if}}
 {{/if}}

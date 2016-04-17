@@ -102,20 +102,9 @@ body {
   max-width: 100%;
   margin-bottom: 2rem;
   background-color: #fff;
-}
-.table > thead > tr,
-.table > tbody > tr,
-.table > tfoot > tr {
   border-collapse: collapse;
-  display: table;
-  width:100%;
-  table-layout: fixed;
 }
-.table > tbody {
-  max-height: 500px;
-  display: block;
-  overflow-y: auto;
-}
+
 .table > thead > tr > th,
 .table > tbody > tr > th,
 .table > tfoot > tr > th,
@@ -126,16 +115,12 @@ body {
   padding: 1.6rem;
   vertical-align: top;
   border-top: 0;
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 .table > thead > tr > th {
   font-weight: 400;
   color: #757575;
   vertical-align: bottom;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 .table > caption + thead > tr:first-child > th,
 .table > colgroup + thead > tr:first-child > th,
@@ -144,23 +129,15 @@ body {
 .table > colgroup + thead > tr:first-child > td,
 .table > thead:first-child > tr:first-child > td {
   border-top: 0;
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 .table > tbody + tbody {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 .table .table {
   background-color: #fff;
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 .table .no-border {
   border: 0;
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 .table-condensed > thead > tr > th,
 .table-condensed > tbody > tr > th,
@@ -169,13 +146,9 @@ body {
 .table-condensed > tbody > tr > td,
 .table-condensed > tfoot > tr > td {
   padding: 0.8rem;
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 .table-bordered {
   border: 0;
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > th,
@@ -185,14 +158,10 @@ body {
 .table-bordered > tfoot > tr > td {
   border: 0;
   border-bottom: 1px solid #e0e0e0;
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td {
   border-bottom-width: 2px;
-  border-collapse: collapse;
-  border-spacing: 0;
 }
 .table-striped > tbody > tr:nth-child(odd) > td,
 .table-striped > tbody > tr:nth-child(odd) > th {
@@ -224,7 +193,6 @@ body {
     background-color: #fff;
     display: block;
     vertical-align: middle;
-    text-align: right;
   }
   .table-responsive-vertical > .table > tbody > tr > td[data-title]:before {
     content: attr(data-title);

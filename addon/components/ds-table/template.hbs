@@ -11,23 +11,11 @@
     			content=model.content
     			loading=loading
     		)
-    		loading=(component 'ds-table-loading'
-    			messages=messages
-    			loading=loading
-    		)
-    		empty=(component 'ds-table-empty'
-    			messages=messages
-    			count=count
-    			loading=loading
-    		)
-			pagination=(component 'ds-table-pagination'
-    			messages=messages
-    			currentPage=currentPage
-    			countPages=countPages
-                limit=limit
-                skip=skip
-    		)
     	)
+        (hash
+            countPages=countPages
+            skip=skip
+        )
     }}
 {{else}}
     {{ds-table-thead
@@ -39,21 +27,5 @@
 		columns=columns
 		content=model.content
 		loading=loading
-	}}
-	{{ds-table-loading
-		messages=messages
-		loading=loading
-	}}
-	{{ds-table-empty
-		messages=messages
-		count=count
-		loading=loading
-	}}
-	{{ds-table-pagination
-        messages=messages
-        currentPage=currentPage
-        countPages=countPages
-        limit=limit
-        skip=skip
 	}}
 {{/if}}

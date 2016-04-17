@@ -1,8 +1,0 @@
-{{#if hasBlock}}
-    {{yield countPages currentPage limit skip}}
-{{else}}
-    {{pagination-pager
-        count=countPages
-        current=currentPage
-    }}
-{{/if}}

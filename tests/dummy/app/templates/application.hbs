@@ -6,12 +6,18 @@
             classNames="table table-hover table-mc-gray table-bordered"
             modelName='user'
             reload=reload
-            columns=columns as |table|
+            currentPage=currentPage
+            limit=limit
+            count=count
+            columns=columns as |table pagination|
         }}
             {{#table.thead as |thead|}}
                 <tr>
-                    <th colspan={{columns.length}}>
-                        <a {{action 'reload'}}>
+                    <th colspan={{if (gte columns.length 3) (sub columns.length 2) 1}}>
+                        count records: {{count}}
+                    </th>
+                    <th style="width:250px;text-align:right" colspan="2">
+                        <a href="#" {{action 'reload'}}>
                             <i class="material-icons pointer">autorenew</i>
                         </a>
                     </th>
@@ -25,7 +31,7 @@
                 </tr>
             {{/table.thead}}
 
-            {{#table.tbody as |tbody content|}}
+            {{#table.tbody as |tbody content loading|}}
                 {{#each content as |record|}}
                     <tr>
                         {{#each columns as |column|}}
@@ -42,37 +48,33 @@
                         {{/each}}
                     </tr>
                 {{/each}}
-            {{/table.tbody}}
 
-            {{#table.empty tagName='tbody' as |isEmpty loading|}}
-                {{#if (and isEmpty (not loading))}}
-                    <tr>
-                        <td colspan={{columns.length}}>
-                            nothing found
-                        </td>
-                    </tr>
-                {{/if}}
-            {{/table.empty}}
-
-            {{#table.loading tagName='tbody' as |loading|}}
                 {{#if loading}}
                     <tr>
                         <td colspan={{columns.length}}>
                             loading...
                         </td>
                     </tr>
+                {{else}}
+                    {{#if (lte count 0)}}
+                        <tr>
+                            <td colspan={{columns.length}}>
+                                nothing found
+                            </td>
+                        </tr>
+                    {{/if}}
                 {{/if}}
-            {{/table.loading}}
-
-            {{#table.pagination tagName='tbody' as |countPages currentPage limit skip|}}
+            {{/table.tbody}}
+            <tbody>
                 <tr>
-                    <td colspan="4">
-                        go to: {{input classNames='go-to' value=currentPage}}
+                    <td colspan={{if (gte columns.length 3) (sub columns.length 2) 1}}>
+                        {{input classNames='go-to' value=updateCurrentPage}}
+                        <button {{action 'goTo' updateCurrentPage}}>go</button>
                         elements on page: {{input classNames='go-to' value=limit}}
                     </td>
-                    <td colspan="3">
+                    <td style="width:250px" colspan="2">
                         {{#pagination-pager classNames="float-right"
-                            count=countPages
+                            count=pagination.countPages
                             current=currentPage
                             pager=true
                             pagerPrevious='<i class="material-icons">keyboard_arrow_left</i>'
@@ -80,11 +82,11 @@
                             pagerFirst='<i class="material-icons">first_page</i>'
                             pagerLast='<i class="material-icons">last_page</i>'
                         }}
-                            Page {{currentPage}} of {{countPages}}
+                            Page {{currentPage}} of {{pagination.countPages}}
                         {{/pagination-pager}}
                     </td>
                 </tr>
-            {{/table.pagination}}
+            </tbody>
         {{/ds-table}}
     </div>
 </div>

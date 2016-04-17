@@ -34,9 +34,13 @@ export default Controller.extend({
         }
     ],
     reload: false,
+    currentPage: 1,
+    updateCurrentPage: 1,
+    limit: 10,
+    count: 0,
     actions: {
-        doubleClick(e, row) {
-            console.log(e, row);
+        goTo(value) {
+            this.set('currentPage', value);
         },
         reload() {
             this.set('reload', true);
