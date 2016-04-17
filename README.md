@@ -1,11 +1,9 @@
 # Ember-ds-table
 
-This README outlines the details of collaborating on this Ember addon.
-
 ## Installation
 
 ```bash
-ember install ember-models-table
+ember install ember-ds-table
 ```
 
 ## Usage
