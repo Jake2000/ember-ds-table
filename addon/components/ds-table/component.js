@@ -1,6 +1,4 @@
 import Ember from 'ember';
-import DS from 'ember-data';
-
 import layout from './template';
 
 const {
@@ -14,7 +12,9 @@ const {
         service
     },
     isNone,
-    merge,
+    assign,
+    ArrayProxy,
+    PromiseProxyMixin
 } = Ember;
 
 const O = Ember.Object;
@@ -71,13 +71,14 @@ export default Component.extend({
         this.set('currentPage', currentPage);
     },
     content: alias('model.content'),
-    model: computed('skip', 'limit', 'query', function() {
+    model: computed('reload', 'skip', 'limit', 'query', function() {
         this.set('loading', true);
         let {
             store, modelName, query
         } = this.getProperties('store', 'modelName', 'query');
-        query = merge(query, this.getProperties('skip', 'limit'));
-        return DS.PromiseArray.create({
+        query = assign(query || {}, this.getProperties('skip', 'limit'));
+        let ArrayPromise = ArrayProxy.extend(PromiseProxyMixin);
+        return ArrayPromise.create({
             promise: store.query(modelName, query)
                 .then(result => {
                     let count = result.get('meta.count');

@@ -1,6 +1,6 @@
 {
   "name": "ember-ds-table",
-  "version": "1.0.0-alpha4",
+  "version": "1.0.0-beta.1",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {
     "doc": "doc",
