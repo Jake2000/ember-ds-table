@@ -13,7 +13,8 @@ const {
     inject: {
         service
     },
-    isNone
+    isNone,
+    merge,
 } = Ember;
 
 const O = Ember.Object;
@@ -29,6 +30,7 @@ export default Component.extend({
     currentPage: 1,
     reload: false,
     loading: false,
+    query: {},
     countPages: computed('count', 'limit', {
         get() {
             let {
@@ -69,13 +71,14 @@ export default Component.extend({
         this.set('currentPage', currentPage);
     },
     content: alias('model.content'),
-    model: computed('skip', 'limit', function() {
+    model: computed('skip', 'limit', 'query', function() {
         this.set('loading', true);
         let {
-            store, modelName
-        } = this.getProperties('store', 'modelName');
+            store, modelName, query
+        } = this.getProperties('store', 'modelName', 'query');
+        query = merge(query, this.getProperties('skip', 'limit'));
         return DS.PromiseArray.create({
-            promise: store.query(modelName, this.getProperties('skip', 'limit'))
+            promise: store.query(modelName, query)
                 .then(result => {
                     let count = result.get('meta.count');
                     this.set('count', count ? count : 0);

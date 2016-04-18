@@ -38,6 +38,9 @@ export default Controller.extend({
     updateCurrentPage: 1,
     limit: 10,
     count: 0,
+    query: {
+        fields: 'id,avatar,firstName,lastName,address,state,country'
+    },
     actions: {
         goTo(value) {
             this.set('currentPage', value);
